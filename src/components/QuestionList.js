@@ -34,12 +34,41 @@ useEffect(()=>{
     }
  //console.log("after delete")
  //console.log(items);
+
+
+ function handleChangeCorrectAnswer(id,newCorrectIndex){
+   fetch(`http://localhost:4000/questions/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+          correctIndex: newCorrectIndex
+          }),// Les champs à modifier
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Erreur lors de la mise à jour");
+      }
+      //mise a jour
+     setItems((prevItems) =>
+        prevItems.map((item) =>
+          item.id === id ? { ...item, correctIndex: newCorrectIndex } : item
+        )
+      );
+    })
+    .catch((error) => {
+      console.error("Erreur:", error);
+    });
+ }
+
+
   return (
     <section>
       <h1>Quiz Questions</h1>
      <ul>
         {items.map(item => {
-          return <QuestionItem key={item.id} question={item} deleteItem={handleDelete}/>
+          return <QuestionItem key={item.id} question={item} deleteItem={handleDelete} changeItem={handleChangeCorrectAnswer}/>
         })}
       </ul>
     </section>
