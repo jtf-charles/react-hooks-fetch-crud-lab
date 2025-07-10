@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
-function QuestionItem({ question }) {
+function QuestionItem({ question, deleteItem}) {
+  //const [questionList, setQuestionList]=useState(question)
   const { id, prompt, answers, correctIndex } = question;
 
   const options = answers.map((answer, index) => (
@@ -8,6 +9,10 @@ function QuestionItem({ question }) {
       {answer}
     </option>
   ));
+
+function DeleteQuestion(){
+  deleteItem(id)
+} 
 
   return (
     <li>
@@ -17,7 +22,7 @@ function QuestionItem({ question }) {
         Correct Answer:
         <select defaultValue={correctIndex}>{options}</select>
       </label>
-      <button>Delete Question</button>
+      <button onClick={DeleteQuestion}>Delete Question</button>
     </li>
   );
 }

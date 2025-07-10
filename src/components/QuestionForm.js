@@ -17,9 +17,30 @@ function QuestionForm(props) {
     });
   }
 
+
+  function arrangeData(data){
+    return {
+      "prompt":data.prompt,
+      "answers": [
+       data.answer1,
+       data.answer2,
+       data.answer3,
+       data.answer4
+      ],
+      "correctIndex":data.correctIndex
+    }
+  }
+
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(formData);
+    fetch("http://localhost:4000/questions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(arrangeData(formData)),
+  });
+    console.log(arrangeData(formData));
   }
 
   return (
